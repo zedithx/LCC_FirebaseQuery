@@ -1,6 +1,6 @@
 import os
 import logging
-from datetime import time, datetime
+from datetime import datetime
 
 import firebase_admin
 import random
