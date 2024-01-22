@@ -1,12 +1,12 @@
 import os
 import logging
-from datetime import datetime
-
 import firebase_admin
 import random
 
+from datetime import datetime
 from dotenv import load_dotenv
 from firebase_admin import db
+
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -60,17 +60,6 @@ def tabulate_poster_max(size: int):
     return [poster for poster in sorted_poster_dict[0:size]]
 
 
-def get_telegram_ids(inp, telegram_id_list):
-    if inp == 'OVERSEAS':
-        if ref.child(inp).get():
-            for country in ref.child(inp).get().keys():  # country ref
-                for poster in ref.child(inp).child(country).get().keys():  # poster ref
-                    telegram_id_list += list(ref.child(inp).child(country).child(poster).get().keys())
-    else:
-        if ref.child(inp).get():
-            for poster in ref.child(inp).get().keys():
-                telegram_id_list += list(ref.child(inp).child(poster).get().keys())
-
 
 # Choosing Lucky Draw Winner
 start_time = datetime.now()
@@ -86,10 +75,3 @@ count_poster("UROP")
 print(f"Time elapsed for Popular Poster:{datetime.now() - start_time}")
 print(f'Most Popular Posters: {tabulate_poster_max(3)}\n')
 
-# get list of telegram_ids
-start_time = datetime.now()
-get_telegram_ids("FIFTHROW", telegram_id_list)
-get_telegram_ids("OVERSEAS", telegram_id_list)
-get_telegram_ids("UROP", telegram_id_list)
-print(f"Time elapsed for Popular Poster:{datetime.now() - start_time}")
-print(f"Telegram IDs: {set(telegram_id_list)}")
